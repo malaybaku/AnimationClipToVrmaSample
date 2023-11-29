@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Baxter
 {
@@ -20,7 +23,7 @@ namespace Baxter
             window.Show();
         }
 
-        void OnGUI()
+        private void OnGUI()
         {
             EditorGUIUtility.labelWidth = 150;
             if (Application.isPlaying)
@@ -50,7 +53,7 @@ namespace Baxter
             GUI.enabled = true;
         }
 
-        void TrySaveAnimationClip()
+        private void TrySaveAnimationClip()
         {
             var saveFilePath = EditorUtility.SaveFilePanel(
                 "Save VRM Animation File", "", animationClip.name, FileExtension
@@ -61,9 +64,11 @@ namespace Baxter
                 return;
             }
 
+            GameObject referenceObj = null;
             try
             {
-                var data = AnimationClipToVrmaCore.Create(avatarObject.GetComponent<Animator>(), animationClip);
+                referenceObj = GetAnimatorOnlyObject(avatarObject);
+                var data = AnimationClipToVrmaCore.Create(referenceObj.GetComponent<Animator>(), animationClip);
                 File.WriteAllBytes(saveFilePath, data);
                 Debug.Log("VRM Animation file was saved to: " + Path.GetFullPath(saveFilePath));
             }
@@ -71,19 +76,20 @@ namespace Baxter
             {
                 Debug.LogException(ex);
             }
+            finally
+            {
+                if (referenceObj != null)
+                {
+                    DestroyImmediate(referenceObj);
+                }
+            }
         }
         
-        bool ShowAvatarValidityGUI()
+        private bool ShowAvatarValidityGUI()
         {
             if (avatarObject == null)
             {
                 EditorGUILayout.LabelField("*Avatar is not selected.");
-                return false;
-            }
-
-            if (avatarObject.scene.rootCount == 0)
-            {
-                EditorGUILayout.LabelField("*Avatar is not in scene: please put it on current scene.");
                 return false;
             }
 
@@ -105,7 +111,7 @@ namespace Baxter
             return true;
         }
 
-        bool ShowAnimationClipValidityGUI()
+        private bool ShowAnimationClipValidityGUI()
         {
             if (animationClip == null)
             {
@@ -120,6 +126,59 @@ namespace Baxter
             }
 
             return true;
+        }
+
+        // HumanBodyBoneの骨格と関係しない要素を削除していく。
+        private static GameObject GetAnimatorOnlyObject(GameObject src)
+        {
+            var result = Instantiate(src);
+
+            //コンポーネントを消す
+            var animator = result.GetComponent<Animator>();
+            var components = result.GetComponentsInChildren<Component>();
+            foreach (var c in components)
+            {
+                if (c != animator && c is not Transform)
+                {
+                    DestroyImmediate(c);
+                }
+            }
+
+            //GameObjectを消す
+            //NOTE: マイナーではあるが、以下のようなボーン構造に対して(知らないボーン)の部分を削除しないように対策している
+            // - LeftUpperLeg / (知らないボーン) / LeftLowerLeg
+            var boneTransforms = new HashSet<Transform>() { result.transform };
+            foreach (var bone in Enum.GetValues(typeof(HumanBodyBones)).Cast<HumanBodyBones>())
+            {
+                if (bone is HumanBodyBones.Jaw or HumanBodyBones.LastBone)
+                {
+                    continue;
+                }
+
+                var boneTransform = animator.GetBoneTransform(bone);
+                if (boneTransform == null)
+                {
+                    continue;
+                }
+
+                // ここでparentを見ておくのが対策
+                for (var t = boneTransform; t != null; t = t.parent)
+                {
+                    boneTransforms.Add(t);
+                }
+            }
+
+            var transforms = result.GetComponentsInChildren<Transform>();
+            foreach (var t in transforms)
+            {
+                //親がすでに削除済みだとt == nullになりうることに注意
+                if (t != null && !boneTransforms.Contains(t))
+                {
+                    DestroyImmediate(t.gameObject);
+                }
+            }
+            
+            return result;
         }
     }
 }
