@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using UnityEngine.UIElements;
 
 namespace Baxter
 {
@@ -25,10 +25,16 @@ namespace Baxter
 
         private void OnGUI()
         {
+            minSize = new Vector2(300f, 250f);
             EditorGUIUtility.labelWidth = 150;
+            
+            EditorGUILayout.Space();
+            WrappedLabel("再生用のアバターとモーションデータを指定することで、\nVRM Animation(.vrma)ファイルを出力します。");
+            EditorGUILayout.Space();
+
             if (Application.isPlaying)
             {
-                EditorGUILayout.LabelField("This feature is unavailable during playing.");
+                WrappedLabel("This feature is unavailable during playing.");
             }
             
             EditorGUILayout.LabelField("Avatar:");
@@ -44,6 +50,10 @@ namespace Baxter
             //NOTE: Always show animation clip validity GU
             var animationIsValid = ShowAnimationClipValidityGUI();
 
+            EditorGUILayout.Space();
+            WrappedLabel("出力時のFPSは30で固定です.");
+            EditorGUILayout.Space();
+            
             var canExport = !Application.isPlaying && avatarIsValid && animationIsValid;
             GUI.enabled = canExport;
             if (canExport & GUILayout.Button("Export", GUILayout.MinWidth(100)))
@@ -89,21 +99,21 @@ namespace Baxter
         {
             if (avatarObject == null)
             {
-                EditorGUILayout.LabelField("*Avatar is not selected.");
+                WrappedLabel("*Avatar is not selected.");
                 return false;
             }
 
             var animator = avatarObject.GetComponent<Animator>();
             if (animator == null)
             {
-                EditorGUILayout.LabelField(
+                WrappedLabel(
                     "*Avatar does not have animator. Please specify object with Animator component.");
                 return false;
             }
 
             if (!animator.isHuman)
             {
-                EditorGUILayout.LabelField(
+                WrappedLabel(
                     "*Avatar's animator is not humanoid. Please specify avatar with Humanoid rig setup.");
                 return false;
             }
@@ -115,13 +125,13 @@ namespace Baxter
         {
             if (animationClip == null)
             {
-                EditorGUILayout.LabelField("*Animation Clip is not selected.");
+                WrappedLabel("*Animation Clip is not selected.");
                 return false;
             }
 
             if (!animationClip.isHumanMotion)
             {
-                EditorGUILayout.LabelField("*The Clip is not Humanoid Animation.");
+                WrappedLabel("*The Clip is not Humanoid Animation.");
                 return false;
             }
 
@@ -179,6 +189,15 @@ namespace Baxter
             }
             
             return result;
+        }
+
+        private static void WrappedLabel(string label)
+        {
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                wordWrap = true,
+            };
+            EditorGUILayout.LabelField(label, style);
         }
     }
 }
