@@ -2,11 +2,11 @@
 
 ヒューマノイドのモーションからなるAnimation Clipを VRM Animation (.vrma) に変換するプロジェクトです。
 
-※この方法では変換したVRM Animationファイルにはモデルの骨格情報が埋め込まれます。とくにVRM Animationファイルの再配布を検討している場合、このREADMEを必ず最後まで読んで下さい。
+※この方法では変換した`.vrma`ファイルにはモデルの骨格情報が埋め込まれます。とくに`.vrma`ファイルの再配布を検討している場合、このREADMEを必ず最後まで読んで下さい。
 
 Sample Project to convert AnimationClip asset to VRM Animation (.vrma) in Unity.
 
-*The document below is in Japanese, except `Notice about License` section. If you want to redistribute VRM Animation file, you also MUST understand what is written in `Notice about VRMA file redistribution` section.
+*The document below is in Japanese, except `Notice about License` section. If you want to redistribute `.vrma` file, you also MUST understand what is written in `Notice about VRMA file redistribution` section.
 
 # Install
 
@@ -21,48 +21,62 @@ Sample Project to convert AnimationClip asset to VRM Animation (.vrma) in Unity.
 ## 必要なもの
 
 - Humanoid向けにセットアップされたAnimationClip
-- (変換方法2でのみ必要) VRM Animationの再生に用いるヒューマノイドのアバター
+- (変換方法2でのみ必要) AnimationClipの再生に用いるヒューマノイドのアバター
 
-AnimationClipは単独ファイルでも、FBXファイル等に含まれるデータでも構いません。
+AnimationClipは単独のファイル、またはFBXファイルの一部として含まれるデータのいずれでも構いません。
 
 アバターはVRMでのみ動作確認していますが、VRM以外のモデルでも動作する想定です。
 
+プロジェクトをcloneした場合、AnimationClipとアバター双方のサンプルが同梱されています。
+
+
 ## 変換方法1: AnimationClipの右クリックから変換
 
-プロジェクトビュー上でAnimationClipアセットを右クリックして`VRM/Convert to VRM Animation`を実行して保存先を指定することでエクスポートされます。
+プロジェクトビュー上でAnimationClipアセットを右クリックして`VRM/Convert to VRM Animation`を実行して保存先を指定することで`.vrma`ファイルがエクスポートされます。
 
 ![Right Click on Clip](./img/right_click_on_clip.png)
 
-この方法ではVRoidのサンプルモデルの骨格をリファレンスとしたVRM Animationが出力されます。
+この方法ではVRoidのサンプルモデルの骨格をリファレンスとした`.vrma`が出力され、リファレンスモデルは選択できません。
 
-この出力データを使うことがルック上問題ない場合、この方法は簡便です。
+この出力で得た`.vrma`を適用して見た目が問題ない場合、この手順は簡便に利用できます。
 
 
 ## 変換方法2: VRM Animation Exporterウィンドウから変換
 
-アバターをシーン上に配置しておきます。
+`.vrma`ファイルのエクスポート時に参照するアバターをシーン上に配置しておきます。
 
-メニューバーから`VRM/VRM Animation Exporter`を選択して`VRM Animation Exporter`ウィンドウを表示します。
+※このアバターのボーンがAnimationClipの値に沿って操作されます。
 
-このウィンドウで、シーン上に配置したアバター、および変換したいAnimationClipを指定したのち`Export`ボタンでVRM Animationファイルを出力します。
+メニューバーから`VRM/VRM Animation Exporter`を選択して`VRM Animation Exporter`ウィンドウを表示し、次のように指定します。
+
+- `Avatar`: シーン上に配置したアバター
+- `Animation`: 変換したいAnimationClip
+
+その後、`Export`ボタンを選択することで `.vrma` ファイルを出力します。
 
 ![VRM Animation Exporter Window](./img/vrm_animation_exporter_window.png)
 
-この方法を使用すると、アニメーションを適用したいモデルそのものを使ってVRMAファイルを出力できるため、モーションの再現性が高くなることが期待できます。
-
+この方法では、VRM Animationを再生したいアバターそのものの骨格を参照して`.vrma`ファイルを出力できるため、モーションの再現性が高くなります。
 
 
 # 変換後のVRM Animationが正常に動作する事を確認する方法
 
-UniVRM 0.115.0のサンプルパッケージを導入し、
-
-https://github.com/vrm-c/UniVRM/releases/tag/v0.115.0
-
-https://github.com/vrm-c/UniVRM/releases/download/v0.115.0/VRM_Samples-0.115.0_7e05.unitypackage
+VRM Animationの適用対象となるアバターのVRMファイルを用意しておきます。
 
 
+UniVRM 0.115.0のサンプルパッケージを導入します。
 
-*このレポジトリでは上記のサンプルパッケージの導入先フォルダはgitignoreの対象になっています。
+- リリース: https://github.com/vrm-c/UniVRM/releases/tag/v0.115.0
+- unitypackage: https://github.com/vrm-c/UniVRM/releases/download/v0.115.0/VRM_Samples-0.115.0_7e05.unitypackage
+
+*本レポジトリでは上記パッケージに含まれる`VRM10_Samples`フォルダをgitignoreの対象としています。
+
+パッケージの導入後、`VRM10_Samples/SimpleVrma/SimpleVrma`シーンを開いて実行し、アバターと`.vrma`ファイルを読み込むことで動作を確認します。
+
+シーンを実行すると`.vrma`の骨格に基づくCubeベースのモデルも表示されますが、これは`BoxMan`チェックをオフにすれば非表示になります。
+
+![Check VRM in Sample Scene](./img/check_vrma_in_simple_vrma_scene.png)
+
 
 # Notice about VRMA file redistribution
 
