@@ -394,10 +394,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: vroid_sample_a
       objectReference: {fileID: 0}
-    - target: {fileID: 7122865674835646371, guid: 693799e2ce1a5214d96ac42f3fff8d3b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7457757109434150895, guid: 693799e2ce1a5214d96ac42f3fff8d3b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
