@@ -158,6 +158,7 @@ namespace Baxter
             //NOTE: マイナーではあるが、以下のようなボーン構造に対して(知らないボーン)の部分を削除しないように対策している
             // - LeftUpperLeg / (知らないボーン) / LeftLowerLeg
             var boneTransforms = new HashSet<Transform>() { result.transform };
+            var humanBodyBoneTransforms = new HashSet<Transform>();
             foreach (var bone in Enum.GetValues(typeof(HumanBodyBones)).Cast<HumanBodyBones>())
             {
                 if (bone is HumanBodyBones.Jaw or HumanBodyBones.LastBone)
@@ -176,6 +177,9 @@ namespace Baxter
                 {
                     boneTransforms.Add(t);
                 }
+
+                boneTransform.name = bone.ToString();
+                humanBodyBoneTransforms.Add(boneTransform);
             }
 
             var transforms = result.GetComponentsInChildren<Transform>();
@@ -187,7 +191,17 @@ namespace Baxter
                     DestroyImmediate(t.gameObject);
                 }
             }
-            
+
+            //rootでもHumanBodyBonesでもない中間ボーンがある場合、それにも名前を振っておく
+            result.gameObject.name = "root";
+            boneTransforms.Remove(result.transform);
+            boneTransforms.ExceptWith(humanBodyBoneTransforms);
+            var otherBoneIndex = 0;
+            foreach (var bt in boneTransforms)
+            {
+                bt.name = $"bones_{otherBoneIndex}";
+                otherBoneIndex++;
+            }
             return result;
         }
 
