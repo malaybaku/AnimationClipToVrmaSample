@@ -141,8 +141,10 @@ namespace Baxter
         // HumanBodyBoneの骨格と関係しない要素を削除していく。
         private static GameObject GetAnimatorOnlyObject(GameObject src)
         {
-            var result = Instantiate(src);
+            var resultAnimator = HumanoidBuilder.CreateHumanoid(src.GetComponent<Animator>());
+            return resultAnimator.gameObject;
 
+            var result = Instantiate(src);
             //コンポーネントを消す
             var animator = result.GetComponent<Animator>();
             var components = result.GetComponentsInChildren<Component>();

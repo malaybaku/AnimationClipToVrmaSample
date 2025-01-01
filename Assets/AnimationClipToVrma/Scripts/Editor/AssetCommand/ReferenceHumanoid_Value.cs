@@ -6,6 +6,8 @@ namespace Baxter
     //Reference Humanoidとして、VRoid StudioのサンプルモデルAの骨格により実現されるようなヒューマノイド骨格の値
     public static partial class ReferenceHumanoid
     {
+        public static IReadOnlyDictionary<HumanBodyBones, Pose> ReferenceBoneLocalPoseMap => BoneLocalPoseMap;
+        
         private static readonly Dictionary<HumanBodyBones, Pose> BoneLocalPoseMap = new Dictionary<HumanBodyBones, Pose>()
         {
             [HumanBodyBones.Hips] = new Pose(

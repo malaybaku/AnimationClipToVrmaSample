@@ -40,7 +40,7 @@ namespace Baxter
             GameObject animatorObject = null;
             try
             {
-                var animator = ReferenceHumanoid.CreateHumanoid();
+                var animator = HumanoidBuilder.CreateHumanoid(ReferenceHumanoid.ReferenceBoneLocalPoseMap);
                 animatorObject = animator.gameObject;
                 var bytes = AnimationClipToVrmaCore.Create(animator, clip);
                 File.WriteAllBytes(saveFilePath, bytes);
