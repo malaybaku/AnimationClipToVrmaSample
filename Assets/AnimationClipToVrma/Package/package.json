@@ -1,0 +1,15 @@
+{
+    "name": "com.baxter.animation-clip-to-vrma",
+    "displayName": "AnimationClipToVrma",
+    "version": "0.2.0",
+    "unity": "2022.3",
+    "author": "Baxter",
+    "description": "File Converter, from AnimationClip to VRM Animation (.vrma).",
+    "dependencies": {
+        "com.vrmc.vrmshaders": "0.115.0",
+        "com.vrmc.gltf": "0.115.0",
+        "com.vrmc.univrm":  "0.115.0",
+        "com.vrmc.vrm":  "0.115.0"
+    },
+    "samples": []
+}
