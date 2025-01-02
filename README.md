@@ -38,7 +38,7 @@ Sample Project to convert AnimationClip asset to VRM Animation (.vrma) in Unity.
 ![Right Click on Clip](./img/right_click_on_clip.png)
 
 この方法ではVRoidのサンプルモデル骨格をリファレンスとした`.vrma`が出力されます。
-この出力で得られる`.vrma`を使ってみて見た目が問題ない場合、この手順は簡便に利用できます。
+この出力で得られた`.vrma`の見た目がとくに問題ない場合、簡単な手順です。
 
 
 ## 変換方法2: VRM Animation Exporterウィンドウから変換
@@ -46,18 +46,20 @@ Sample Project to convert AnimationClip asset to VRM Animation (.vrma) in Unity.
 メニューバーから`VRM/VRM Animation Exporter`を選択して`VRM Animation Exporter`ウィンドウを表示します。
 表示後、次のように指定します。
 
-- `Avatar`: アバターのprefabで、`Animator`コンポーネントを含むもの
+- `Avatar`: Tポーズになっているアバターのprefabで、`Animator`コンポーネントを含むもの
 - `Animation`: 変換したいAnimationClip
 
 その後、`Export`ボタンを選択することで `.vrma` ファイルを出力します。
 
 ![VRM Animation Exporter Window](./img/vrm_animation_exporter_window.png)
 
-この手順ではVRM Animationに紐づくアバターを自由に指定できます。
-「特定アバターでのモーションの再現度を高くしたい」という場合、この手順を使用します。
+この手順ではVRM Animationにおいてリファレンスとなるアバターの骨格を指定できます。
+`.vrma` の生成と適用に共通のアバターを指定してモーションの再現度を高めたい場合、この手順を使用します。
 
 
-# 変換後のVRM Animationが正常に動作する事を確認する方法
+# 変換後のVRM Animationの動作を確認する方法
+
+※[VRoid Hub](https://hub.vroid.com/)の撮影ブース機能など、ウェブ上で `.vrma` ファイルが再生出来る方法も併用できます。この節では、Unity Editorのみで確認する方法の例を紹介しています。
 
 VRM Animationの適用対象にするアバターのVRMを用意し、UniVRM 0.115.0のサンプルパッケージを導入します。
 
@@ -91,7 +93,7 @@ VRM Animationの適用対象にするアバターのVRMを用意し、UniVRM 0.1
     - VRMの取得元: [AvatarSample_A](https://hub.vroid.com/characters/2843975675147313744/models/5644550979324015604)
 - `Assets/AnimationClipToVrma/Scripts/Editor/AssetCommands` フォルダ内のコードは上記モデルの骨格情報に相当する値をハードコードしているため、この値をそのまま使う場合も上記モデルのライセンスに沿ってご使用下さい。
     - この注意書きは`変換方法1: AnimationClipの右クリックから変換`の方法を使う場合に関するものです。
-    - `VRM Animation Exporter`ウィンドウを使って`.vrma`を取得する場合、この数値は使用されません。
+    - `VRM Animation Exporter`ウィンドウを使って`.vrma`を生成する場合、この数値は使用されません。
 - 上記を除くリソースのライセンスは`LICENSE`ファイルに従います。
 
 
@@ -108,8 +110,7 @@ VRM Animationの適用対象にするアバターのVRMを用意し、UniVRM 0.1
 `変換方法1: AnimationClipの右クリックから変換`で参照している骨格情報を他のアバターのものに書き換えるには次のようにします。
 
 - このプロジェクトをcloneします。
-- 書き換えに使いたいアバターのprefabをプロジェクトビュー上で右クリックし、`VRM/Util/Export Bone Pose Script Fragment`を実行します。
-    - この操作によって、デスクトップフォルダに`bone_literal.txt`ファイルが保存されます。
-- `ReferenceHumanoid_Value.cs`を開き、Pose値が書かれている箇所を`bone_literal.txt`の内容で上書きします。
+- 書き換えに使いたいアバターのprefabをプロジェクトビュー上で右クリックし、`VRM/Util/Export Bone Pose Script`を実行します。
+    - この操作によって、デスクトップフォルダに`ReferenceHumanoid.cs`ファイルが保存されます。
+- 生成されたファイルの内容を全てコピーし、このプロジェクト上にある `ReferenceHumanoid.cs` にペーストして内容を差し替えます。
 
-現行実装では、書き換えに使うアバターの条件として、(`Jaw`以外の)任意ボーンを含む全てのHumanoid用ボーンが備わっていることを想定しています。

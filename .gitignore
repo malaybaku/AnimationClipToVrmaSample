@@ -74,3 +74,9 @@ crashlytics-build.properties
 /.idea/**
 /Assets/VRM10_Samples.meta
 /Assets/VRM10_Samples/**
+
+/Assets/Model_Internal.meta
+/Assets/Model_Internal/**
+
+/Assets/Motion_Internal.meta
+/Assets/Motion_Internal/**
