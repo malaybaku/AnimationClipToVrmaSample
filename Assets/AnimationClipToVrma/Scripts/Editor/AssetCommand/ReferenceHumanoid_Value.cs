@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace Baxter
 {
-    //Reference Humanoidとして、VRoid StudioのサンプルモデルAの骨格により実現されるようなヒューマノイド骨格の値
-    public static partial class ReferenceHumanoid
+    public static class ReferenceHumanoid
     {
         public static IReadOnlyDictionary<HumanBodyBones, Pose> ReferenceBoneLocalPoseMap => BoneLocalPoseMap;
         
