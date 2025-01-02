@@ -11,7 +11,7 @@ namespace Baxter
     public static class UtilMenuItem
     {
         private const string MenuFolderName = "Assets/VRM/Util/";
-        private const string MenuItemName = "Export Bone Pose Script Fragment";
+        private const string MenuItemName = "Export Bone Pose Script";
         private const string MenuItemFullName = MenuFolderName + MenuItemName;
 
         [MenuItem(MenuItemFullName)]

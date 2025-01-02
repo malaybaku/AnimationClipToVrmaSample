@@ -110,7 +110,7 @@ VRM Animationの適用対象にするアバターのVRMを用意し、UniVRM 0.1
 `変換方法1: AnimationClipの右クリックから変換`で参照している骨格情報を他のアバターのものに書き換えるには次のようにします。
 
 - このプロジェクトをcloneします。
-- 書き換えに使いたいアバターのprefabをプロジェクトビュー上で右クリックし、`VRM/Util/Export Bone Pose Script Fragment`を実行します。
+- 書き換えに使いたいアバターのprefabをプロジェクトビュー上で右クリックし、`VRM/Util/Export Bone Pose Script`を実行します。
     - この操作によって、デスクトップフォルダに`ReferenceHumanoid.cs`ファイルが保存されます。
 - 生成されたファイルの内容を全てコピーし、このプロジェクト上にある `ReferenceHumanoid.cs` にペーストして内容を差し替えます。
 
