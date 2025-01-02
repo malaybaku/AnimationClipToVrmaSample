@@ -14,7 +14,11 @@ Sample Project to convert AnimationClip asset to VRM Animation (.vrma) in Unity.
     - このレポジトリ自体をcloneし、プロジェクトとして開く
 - 既存のプロジェクトに変換用の処理を導入する場合: 
     - 使用中のプロジェクトに[UniVRM 0.115.0](https://github.com/vrm-c/UniVRM/releases/tag/v0.115.0)を導入
-    - Releasesページのunitypackageをダウンロードしてプロジェクトに追加
+    - Releasesページで、unitypackageをダウンロードして導入するか、またはReleaseページの記述に従って `Packages/manifest.json` に下記のような参照を設定
+
+```
+    "com.baxter.animation-clip-to-vrma": "https://github.com/malaybaku/AnimationClipToVrmaSample.git?path=/Assets/AnimationClipToVrma/Package#x.x.x",
+```
 
 # Usage
 
