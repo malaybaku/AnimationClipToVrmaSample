@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Baxter
 {
     /// <summary>
-    /// アバターのprefabを右クリックしたメニューから、HumanDescriptionの骨格情報をコード断片テキストとして変換するユーティリティ
+    /// アバターのprefabを右クリックしたメニューから、HumanDescriptionの骨格情報をコードテキストとして変換するユーティリティ
     /// </summary>
     public static class UtilMenuItem
     {
@@ -22,10 +22,10 @@ namespace Baxter
             var animator = obj.GetComponent<Animator>();
             var path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                "bone_literal.txt"
+                "ReferenceHumanoid.cs"
             );
-            var lines = BonePoseScriptWriter.CreateBoneAndLocalPoseDataMap(animator);
-            File.WriteAllLines(path, lines);
+            var script = BonePoseScriptWriter.BuildHumanoidValuesScript(animator);
+            File.WriteAllText(path, script);
             Debug.Log(MenuItemName + ", file was saved to:" + path);
         }
 
