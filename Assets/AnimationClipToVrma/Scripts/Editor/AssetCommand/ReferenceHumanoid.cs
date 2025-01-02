@@ -1,3 +1,5 @@
+// Auto-Generated File
+// Source Object: vroid_sample_a
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,9 +7,9 @@ namespace Baxter
 {
     public static class ReferenceHumanoid
     {
-        public static IReadOnlyDictionary<HumanBodyBones, Pose> ReferenceBoneLocalPoseMap => BoneLocalPoseMap;
+        public static IReadOnlyDictionary<HumanBodyBones, Pose> BoneLocalPoseMap => Values;
         
-        private static readonly Dictionary<HumanBodyBones, Pose> BoneLocalPoseMap = new Dictionary<HumanBodyBones, Pose>()
+        private static readonly Dictionary<HumanBodyBones, Pose> Values = new()
         {
             [HumanBodyBones.Hips] = new Pose(
                 new Vector3((float)0, (float)0.895375967, (float)0.00436774362),
